@@ -46,13 +46,14 @@ export default function Home() {
             <div className="flex h-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
               <div className="flex flex-col h-full justify-center items-center">
                 <div className="flex h-3/6 flex-col items-center justify-center pt-12">
+                  {type == null && 
                   <div className="text-white text-2xl md:text-3xl text-center font-normal">
                     Welcome!
                     <br />
                     <br />
                     Please chose an option as instructed by your admin to
                     continue.{" "}
-                  </div>
+                  </div>}
                   {/* <div>
                     <Image src={"/assets/Jehoot-logo.svg"} alt="Hello" width={300} height={170} />
                   </div> */}

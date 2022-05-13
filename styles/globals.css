@@ -335,3 +335,8 @@ code {
     content: "\a\a";
     white-space: pre;
 }
+
+.story br::after {
+    content: "\a\a";
+    white-space: pre;
+}
