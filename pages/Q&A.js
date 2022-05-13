@@ -6,7 +6,16 @@ import { useRouter } from "next/router";
 import { Test, QuestionGroup, Question, Option } from "react-multiple-choice";
 
 export default function QandA() {
+  const router = useRouter();
   const [startTime, setStartTime] = useState(0);
+
+  const [type, setType] = useState("");
+  const [timeToRead, setTimeToRead] = useState("");
+
+  useEffect(() => {
+    setType(localStorage.getItem("type"));
+    setTimeToRead(localStorage.getItem("timeToRead"));
+  }, []);
 
   const [q1Ans, setQ1Ans] = useState(null);
   const [q2Ans, setQ2Ans] = useState(null);
@@ -29,36 +38,66 @@ export default function QandA() {
 
   const handleSelectedOptions = (selectedOptions) => {
     console.log(selectedOptions);
-    if (selectedOptions[0]) {
+    if (selectedOptions[0] && q1Ans != selectedOptions[0]) {
       setQ1Ans(selectedOptions[0]);
       const now1 = Date.now();
       setQ1AnsTime(now1 - startTime);
     }
-    if (selectedOptions[1]) {
+    if (selectedOptions[1] && q2Ans != selectedOptions[1]) {
       setQ2Ans(selectedOptions[1]);
       const now2 = Date.now();
       setQ2AnsTime(now2 - startTime);
     }
-    if (selectedOptions[2]) {
+    if (selectedOptions[2] && q3Ans != selectedOptions[2]) {
       setQ3Ans(selectedOptions[2]);
       const now3 = Date.now();
       setQ3AnsTime(now3 - startTime);
     }
-    if (selectedOptions[3]) {
+    if (selectedOptions[3] && q4Ans != selectedOptions[3]) {
       setQ4Ans(selectedOptions[3]);
       const now4 = Date.now();
       setQ4AnsTime(now4 - startTime);
     }
-    if (selectedOptions[4]) {
+    if (selectedOptions[4] && q5Ans != selectedOptions[4]) {
       setQ5Ans(selectedOptions[4]);
       const now5 = Date.now();
       setQ5AnsTime(now5 - startTime);
     }
-    if (selectedOptions[5]) {
+    if (selectedOptions[5] && q6Ans != selectedOptions[5]) {
       setQ6Ans(selectedOptions[5]);
       const now6 = Date.now();
       setQ6AnsTime(now6 - startTime);
     }
+  };
+
+  const handleClick = async (event) => {
+    const rawResponse = fetch(
+      "https://sheet.best/api/sheets/9fba6ae8-4c62-49fb-867d-6c0575ada461",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: type,
+          timeToRead: timeToRead,
+          q1ans: q1Ans,
+          q1timeToAnswer: q1AnsTime,
+          q2ans: q2Ans,
+          q2timeToAnswer: q2AnsTime,
+          q3ans: q3Ans,
+          q3timeToAnswer: q3AnsTime,
+          q4ans: q4Ans,
+          q4timeToAnswer: q4AnsTime,
+          q5ans: q5Ans,
+          q5timeToAnswer: q5AnsTime,
+          q6ans: q6Ans,
+          q6timeToAnswer: q6AnsTime,
+        }),
+      }
+    ).then((data) => data.json());
+    console.log(rawResponse);
+    router.push("/");
   };
 
   return (
@@ -177,6 +216,16 @@ export default function QandA() {
               <Option value="3">Sweet</Option>
             </QuestionGroup>
           </Test>
+          <div className="pb-6">
+            <button
+              className="clicky-button font-bold"
+              onClick={(e) => {
+                handleClick(e);
+              }}
+            >
+              <span>NEXT</span>
+            </button>
+          </div>
         </div>
       </div>
     </>
