@@ -6,8 +6,7 @@ import { useRouter } from 'next/router'
 
 
 export default function Home() {
-  const [otp, setOtp] = useState(null);
-  const [joining, setJoining] = useState(false);
+  const [type, setType] = useState(null);
   const router = useRouter()
 
   useEffect(() => {
@@ -60,31 +59,39 @@ export default function Home() {
                     separator={<span>-</span>}
                   />} */}
 
-                  <div className="text-white text-2xl text-center">Roleplay the conversation on the next page with your child. <br />
+                  {type == 'dialog' &&  <div className="text-white text-2xl text-center">Roleplay the conversation on the next page with your child. <br />
                     Try to mimic the expression specified in front of the dialogue. <br />
                     <br />
-                    <b>Parent</b> reads the story when its <span className='text-blue-400'>blue</span> and <span className='text-green-400'>green</span> for the <b>child</b>.</div>
+                    <b>Parent</b> reads the story when its <span className='text-blue-400'>blue</span> and <span className='text-green-400'>green</span> for the <b>child</b>.</div>}
 
-                  <div className="text-white text-2xl text-center">Please narrate the story in the next page to your child and answer any questions that may follow. 
-                    Try to mimic the expression specified in front of the dialogue. <br />
-                    <br />
-                    <b>Parent</b> reads the story when its <span className='text-blue-400'>blue</span> and <span className='text-green-400'>green</span> for the <b>child</b>.</div>
+                  {type =='story' && <div className="text-white text-2xl text-center">Please narrate the story in the next page to your child and answer any questions that may follow.</div>}
 
-                  <div className='pb-6 pt-4'>
+                  {(type == 'story' || type == null) && <div className='pb-6 pt-4'>
                     <button className='clicky-button font-bold' onClick={(e) => {
+                      if (type) {
+                        router.push('/story')
+                      }
+                      else {
+                        setType('story');
+                      }
                       e.preventDefault();
-                      router.push('/story')
                     }}>
-                      <span>Story</span></button>
-                  </div>
+                      <span>{!type ? 'Story' : 'GO'}</span></button>
+                  </div>}
 
 
-                  <div className='pb-6'>
+                  {(type == 'dialog' || type == null) && <div className='pb-6'>
                     <button className='clicky-button font-bold' onClick={(e) => {
+                      if (type) {
+                        router.push('/dialog')
+                      }
+                      else {
+                        setType('dialog');
+                      }
                       e.preventDefault();
-                      router.push('/dialog')
-                    }}><span>Dialog</span></button>
-                  </div>
+                    }}>
+                      <span>{!type ? 'Dialog' : 'GO'}</span></button>
+                  </div>}
 
                 </div>
 

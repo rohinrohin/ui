@@ -313,3 +313,25 @@ code {
 }
 
 /* Game board styles END */
+
+
+
+.parent {
+  display: block;
+  color: #3800ff;
+}
+
+.parent::after{
+    content: "\a\a";
+    white-space: pre;
+}
+
+.child {
+  display: block;
+  color: green;
+}
+
+.child::after{
+    content: "\a\a";
+    white-space: pre;
+}
